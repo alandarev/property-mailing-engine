@@ -1,0 +1,10 @@
+{
+  "name": "property-mailing-engine",
+  "version": "0.0.1",
+  "description": "Node.js based search engine for properties aiming to address the issue of already GONE properties",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+  }
+}

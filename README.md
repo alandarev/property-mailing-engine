@@ -25,6 +25,15 @@ This scheme will solve two main pain points for the customer:
 1. No time spent filtering out what were the newly added properties by surfing the listing websites each day
 2. Guarantee, that user gets the relevant information as soon as possible.
 
+## Development Plan
+To achieve our desired goal, let us divide the project into several functionalities and then focus on them one by one.. We need some sort of HTTP front end to list properties, even if we focus on emails, it is essential for development and debugging purposes.
+
+1. Develop a simple web page with listing example
+2. Plug in dummy database provider into the listing example
+3. Develop the spider of properties listing websites (start with zoopla, as it as friendly API)
+4. Make a database provider, uniting the spider with listing example
+5. Now work on email functionality and improve spider.
+
 ## License
 [GPL v3]
 
