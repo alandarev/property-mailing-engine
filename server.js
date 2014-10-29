@@ -5,15 +5,22 @@
 // Easy, right?
 
 var jade = require('jade'),
-    http = require('http');
+    http = require('http'),
+    Router = require('routes-router'),
+    st = require('st');
 
 var listingPage = jade.compileFile('templates/listing.jade');
 
+var app = Router();
+var server = http.createServer(app);
 
-var server = http.createServer();
+app.addRoute("/static/*", st({
+  path: __dirname + "/static",
+  url: "/static",
+  index: false
+}));
 
-server.on('request', function webListener(request, response)  {
-  console.log(request.url);
+app.addRoute("/", function indexPage(request, response) {
   response.end(listingPage({}));
 });
 
