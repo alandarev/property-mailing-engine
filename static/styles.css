@@ -1,3 +1,7 @@
 body  {
   color: orange;
 }
+
+ul#props_list {
+  list-style-type:  none;
+}
