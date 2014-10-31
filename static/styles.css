@@ -1,7 +1,26 @@
 body  {
-  color: orange;
+  color: grey;
 }
 
 ul#props_list {
+  width: 900px;
   list-style-type:  none;
+}
+
+ul#props_list li  {
+  border-bottom: 1px solid;
+}
+
+article.property  {
+  position: relative;
+}
+
+div.prop_title  {
+  position: relative;
+}
+
+div.prop_cost {
+  position: absolute;
+  right:0px;
+  top: 0;
 }

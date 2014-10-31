@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Node.js based search engine for properties aiming to address the issue of already GONE properties",
   "scripts": {
-    "start": "nodemon -e js,jade server.js"
+    "start": "nodemon -e js,jade,css server.js"
   },
   "dependencies": {
     "jade": "^1.7.0",
