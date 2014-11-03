@@ -28,10 +28,11 @@ div.leftcol {
 
 div.leftcol img {
   position: absolute;
-  z-index: -1;
 }
 
 div.prop_letter  {
+  position: relative;
+  z-index: 2;
   width: 25px;
   height: 20px;
   text-align: center;
