@@ -13,14 +13,33 @@ ul#props_list li  {
 
 article.property  {
   position: relative;
+  min-height: 170px;
 }
 
-div.prop_title  {
-  position: relative;
+div.middlecol {
+  margin-left: 170px;
 }
 
-div.prop_cost {
+div.leftcol {
   position: absolute;
-  right:0px;
+  left: 0;
+  top: 0;
+}
+
+div.leftcol img {
+  position: absolute;
+  z-index: -1;
+}
+
+div.prop_letter  {
+  width: 25px;
+  height: 20px;
+  text-align: center;
+  background-color: #e6e6e6;
+}
+
+div.rightcol {
+  position: absolute;
+  right:0;
   top: 0;
 }
