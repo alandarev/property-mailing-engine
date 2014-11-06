@@ -1,5 +1,16 @@
+/*
+ * color scheme
+ * https://color.adobe.com/Neutral-Blue-color-theme-22361/
+ * white:   #FCFFF5
+ * bright:  #D1DBBD
+ * mid:     #91AA9D
+ * blue:    #3E606F
+ * dark:    #193441
+*/
+
 body  {
-  color: grey;
+  color: #3E606F;
+  background: #FCFFFA;
 }
 
 ul#props_list {
