@@ -22,6 +22,9 @@ function rq(CB) {
 
 exports.getAll = function(cb)  {
   rq(function(json) {
-    cb(json['response']['listing']);
+    if(json['response'] && json['response']['listing'])
+      cb(null, json['response']['listing']);
+    else
+      cb("Wrong data", json);
   });
 }

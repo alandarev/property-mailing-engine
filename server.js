@@ -26,7 +26,8 @@ app.addRoute("/", function indexPage(request, response) {
 });
 
 app.addRoute("/json", function jsonIndexPage(request, response) {
-  zoopla.getAll(function(data)  {
+  zoopla.getAll(function(err, data)  {
+    if(err) console.log("ERROR: " + err);
     response.end(JSON.stringify(data, null, '\t'));
   });
 });
