@@ -8,6 +8,7 @@ var jade = require('jade'),
     http = require('http'),
     Router = require('routes-router'),
     st = require('st');
+    zoopla = require('./zoopla');
 
 var listingPage = jade.compileFile('templates/listing.jade');
 
@@ -22,6 +23,12 @@ app.addRoute("/static/*", st({
 
 app.addRoute("/", function indexPage(request, response) {
   response.end(listingPage({}));
+});
+
+app.addRoute("/json", function jsonIndexPage(request, response) {
+  zoopla.getAll(function(data)  {
+    response.end(JSON.stringify(data, null, '\t'));
+  });
 });
 
 server.listen(8010);
