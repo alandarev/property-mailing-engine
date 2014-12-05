@@ -5,14 +5,16 @@ var dbUrl = 'mongodb://localhost/properties-node';
 DataProvider = function(url, callback){
   var dataprovider = this;
   MongoClient.connect(url, function(err, db)  {
-    if(err) callback(err);
+    if(err) return callback(err);
     dataprovider.db = db;
     callback();
   });
 };
 
 DataProvider.prototype.close = function()  {
-  this.db.close();
+  if(this.db) {
+    this.db.close();
+  }
 };
 
 DataProvider.prototype.getCollection = function(callback) {

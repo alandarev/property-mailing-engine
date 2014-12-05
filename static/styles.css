@@ -13,6 +13,11 @@ body  {
   background: #FCFFFA;
 }
 
+img.prop_img  {
+  width: 150px;
+  height: auto;
+}
+
 ul#props_list {
   width: 900px;
   list-style-type:  none;
