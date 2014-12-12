@@ -14,6 +14,14 @@ body  {
   max-width: 900px;
 }
 
+a {
+  color:  #193441;
+}
+
+a:visited {
+  color:  #89A5B1;
+}
+
 img.prop_img  {
   width: 150px;
   height: auto;
