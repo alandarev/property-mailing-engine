@@ -16,7 +16,7 @@ html(lang="en")
               div.middlecol
                 div.prop_title
                   h3
-                    a(href="#{prop.details_url}")  #{prop.displayable_address}
+                    a(target="_blank" href="#{prop.details_url}")  #{prop.displayable_address}
                 div.prop_keywords
                   p #{prop.num_bedrooms} Bedrooms, #{prop.num_bathrooms} Bathrooms, #{prop.num_recepts} Recepts
                 div.prop_description
@@ -24,7 +24,8 @@ html(lang="en")
                 div.prop_footer
                   p #{prop.first_published_date}
               div.leftcol
-                img.prop_img(src="#{prop.image_url}" alt="photo")
+                a(target="_blank" href="#{prop.details_url}")
+                  img.prop_img(src="#{prop.image_url}" alt="photo")
                 div.prop_letter #{i}
               div.rightcol
                 div.prop_cost
