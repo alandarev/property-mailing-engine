@@ -11,6 +11,7 @@
 body  {
   color: #3E606F;
   background: #FCFFFA;
+  max-width: 900px;
 }
 
 img.prop_img  {
@@ -19,7 +20,7 @@ img.prop_img  {
 }
 
 ul#props_list {
-  width: 900px;
+  width: 90%;
   list-style-type:  none;
 }
 

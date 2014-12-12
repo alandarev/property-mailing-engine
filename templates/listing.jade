@@ -15,7 +15,8 @@ html(lang="en")
             article.property
               div.middlecol
                 div.prop_title
-                  p #{prop.displayable_address}
+                  h3
+                    a(href="#{prop.details_url}")  #{prop.displayable_address}
                 div.prop_keywords
                   p #{prop.num_bedrooms} Bedrooms, #{prop.num_bathrooms} Bathrooms, #{prop.num_recepts} Recepts
                 div.prop_description
