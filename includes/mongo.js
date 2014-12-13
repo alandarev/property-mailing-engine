@@ -28,14 +28,28 @@ DataProvider.prototype.save = function(objects, callback) {
   if(typeof(objects.length) == "undefined") {
     objects = [objects];
   }
+  for(var i=0; i<objects.length; i++) {
+    if(objects[i].listing_id) {
+      objects[i]._id = "zoopla_" + objects[i].listing_id;
+    }
+  }
+  this.getCollection(function(err, collection)  {
+    if(err) return console.error("Error: " + err);
+    for(var i=0; i<objects.length; i++) {
+      collection.save(objects[i], null, function(err, result)  {
+        if(err) return console.error("Error: " + err);
+      });
+    }
+  });
+  //console.log(JSON.stringify(objects, null, '\t'));
 
 };
 
-var data = new DataProvider(dbUrl, function(err)  {
-  console.log("err? ");
-  console.log(err);
-  console.log(data.db);
-  data.close();
-});
+//var data = new DataProvider(dbUrl, function(err)  {
+  //console.log("err? ");
+  //console.log(err);
+  //console.log(data.db);
+  //data.close();
+//});
 
 exports.DataProvider = DataProvider;

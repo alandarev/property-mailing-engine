@@ -15,7 +15,7 @@ body  {
 }
 
 a {
-  color:  #193441;
+  color:  inherit;
 }
 
 a:visited {
