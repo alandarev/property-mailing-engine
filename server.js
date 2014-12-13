@@ -6,6 +6,7 @@
 
 var jade = require('jade'),
     http = require('http'),
+    url = require('url'),
     Router = require('routes-router'),
     st = require('st');
     zoopla = require('./includes/zoopla');
@@ -22,7 +23,9 @@ app.addRoute("/static/*", st({
 }));
 
 app.addRoute("/", function indexPage(request, response) {
-  zoopla.getAll(function(err, data) {
+  var queryData = url.parse(request.url, true).query;
+
+  function printResults(err, data)  {
     if(err) {
       console.log("ERROR: " + err);
       response.end("Zoopla API error");
@@ -35,8 +38,16 @@ app.addRoute("/", function indexPage(request, response) {
       }
     }
     response.end(listingPage({props: data}));
+  }
 
-  });
+  if(queryData.area) {
+    var area = queryData.area;
+    zoopla.getLocation(printResults, area, queryData.radius);
+  }
+
+  else  {
+    zoopla.getAll(printResults);
+  }
 });
 
 app.addRoute("/json", function jsonIndexPage(request, response) {
