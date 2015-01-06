@@ -12,6 +12,7 @@ var jade = require('jade'),
     zoopla = require('./includes/zoopla');
 
 var listingPage = jade.compileFile('templates/listing.jade');
+var configTemplate = jade.compileFile('templates/config.jade');
 
 var app = Router();
 var server = http.createServer(app);
@@ -21,6 +22,10 @@ app.addRoute("/static/*", st({
   url: "/static",
   index: false
 }));
+
+app.addRoute("/config", function configPage(request, response)  {
+  response.end(configTemplate({config: null}));
+});
 
 app.addRoute("/", function indexPage(request, response) {
   var queryData = url.parse(request.url, true).query;

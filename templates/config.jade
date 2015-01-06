@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+  head
+    title Configure Property Listing
+    link(rel='stylesheet', href='/static/styles.css')
+    link(rel='stylesheet', href='/static/config.css')
+
+  body
+    h1 Configure Property Listing
+
+    form.form-settings
+      div.settings-main
+        div.settings-head
+          h2 Settings
+        div.settings-detail
+          div.form-field
+            div.form-field-value
+              input.form-input.input-string(type="string")
+            span Location
+            p.description Specify the area to search properties for
+        div.settings-footer
+          input.input-button.input-submit(type="submit" value="Save")
+
+
+

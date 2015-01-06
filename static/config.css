@@ -1,0 +1,55 @@
+div.settings-main {
+  max-width: 700px;
+}
+
+.settings-head  {
+  border-bottom: 1px solid #eaeaea;
+}
+
+div.form-field  {
+  padding: 1.5em 0.7em;
+  position: relative;
+}
+
+div.form-field-value  {
+  float:right;
+}
+
+input.input-string  {
+  background-color: #f7f7f7;
+  border: 1px solid #e6e6e6;
+  color: #303030;
+  font-size: 0.9em;
+}
+
+p.description {
+  color:  #909090;
+  padding:  0;
+  max-width: 60%;
+  margin: 1px;
+}
+
+div.settings-footer {
+  border-top: 1px solid #eaeaea;
+  text-align: right;
+  margin-top: 1em;
+  padding:  1.5em 0.7em;
+}
+
+input.input-button  {
+  background-color: #60a5da;
+  border: 1px solid #378ed0;
+  color:  #fff;
+  line-height: 2;
+  cursor: pointer;
+  border-radius:4px;
+}
+
+input.input-button:hover  {
+  background-color: #4495d4;
+}
+
+input.input-submit  {
+  padding-left: 2.5em;
+  padding-right:  2.5em;
+}
