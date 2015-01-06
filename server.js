@@ -7,6 +7,7 @@
 var jade = require('jade'),
     http = require('http'),
     url = require('url'),
+    qs = require('querystring'),
     Router = require('routes-router'),
     st = require('st');
     zoopla = require('./includes/zoopla');
@@ -24,6 +25,18 @@ app.addRoute("/static/*", st({
 }));
 
 app.addRoute("/config", function configPage(request, response)  {
+  if(request.method == 'POST')  {
+    var body = '';
+    request.on('data', function(data) {
+      body += data;
+      if (body.length > 1e6)  {
+        request.connection.destroy();
+      }
+    });
+    request.on('end', function()  {
+      var postData = qs.parse(body);
+    });
+  }
   response.end(configTemplate({config: null}));
 });
 
