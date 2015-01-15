@@ -48,7 +48,13 @@ app.addRoute("/config", function configPage(request, response)  {
       });
     });
   }
-  response.end(configTemplate({config: null}));
+  db.getConfig(function(err, config)  {
+    if(err) {
+      response.end("500 DB Error");
+      return console.log("Error: " + err);
+    }
+    response.end(configTemplate({config: config}));
+  });
 });
 
 app.addRoute("/", function indexPage(request, response) {
