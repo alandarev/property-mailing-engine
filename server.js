@@ -17,6 +17,14 @@ var configTemplate = jade.compileFile('templates/config.jade');
 
 var app = Router();
 var server = http.createServer(app);
+var DB = require('./includes/mongo').DataProvider;
+
+// Initialize connection to the DB
+var dbUrl = 'mongodb://localhost/properties-node';
+var db = new DB(dbUrl, function(err)  {
+  if(err) return console.error("DB Error: " + err);
+});
+
 
 app.addRoute("/static/*", st({
   path: __dirname + "/static",
@@ -35,6 +43,9 @@ app.addRoute("/config", function configPage(request, response)  {
     });
     request.on('end', function()  {
       var postData = qs.parse(body);
+      db.saveConfig(postData, function(err) {
+        if(err) console.log("Error: " + err);
+      });
     });
   }
   response.end(configTemplate({config: null}));

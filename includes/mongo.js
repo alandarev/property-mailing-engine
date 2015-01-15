@@ -1,6 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
 
-var dbUrl = 'mongodb://localhost/properties-node';
 
 DataProvider = function(url, callback){
   var dataprovider = this;
@@ -22,7 +21,7 @@ DataProvider.prototype.getCollection = function(callback) {
     if(err) return callback(err);
     callback(null, col);
   });
-}
+};
 
 DataProvider.prototype.save = function(objects, callback) {
   if(typeof(objects.length) == "undefined") {
@@ -43,6 +42,29 @@ DataProvider.prototype.save = function(objects, callback) {
   });
   //console.log(JSON.stringify(objects, null, '\t'));
 
+};
+
+DataProvider.prototype.saveConfig = function(config, callback)  {
+  config['_id'] = 'config';
+  this.db.collection('config', function(err, collection) {
+    if(err) return callback(err);
+    collection.save(config, null, function(err, results)  {
+      if(err) {
+        callback(err);
+      }
+      callback(null);
+    });
+  });
+};
+
+DataProvider.prototype.getConfig = function(callback) {
+  this.db.collection('config', function(err, col) {
+    if(err) return callback(err);
+    col.findOne({'_id': 'config'}, function(err, doc) {
+      if(err) return callback(err);
+      return callback(null, doc);
+    });
+  });
 };
 
 //var data = new DataProvider(dbUrl, function(err)  {
