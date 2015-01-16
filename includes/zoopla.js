@@ -36,6 +36,41 @@ function reqLocation(cb, area, radius)  {
   });
 }
 
+var filters = {
+  'location': 'area',
+  'radius': 'radius'
+};
+
+function reqFilters(cb, options)  {
+  console.log("line 1");
+  params = {};
+  for(var key in filters) {
+    if(key in options)  {
+      params[filters[key]] = options[key];
+    }
+  }
+  params['api_key'] = 'kgrruzj6vffrpscxp88yzy78';
+  params['country'] = 'United Kingdom';
+  params['listing_status'] = 'rent';
+  params['order_by'] = 'age';
+
+  request({
+    method: 'GET',
+    url:  'http://api.zoopla.co.uk/api/v1/property_listings',
+    qs: params,
+    json: true
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      parseXml(body, function(err, result)  {
+        verify(result, cb);
+      });
+    }
+    else  {
+      cb("No API response");
+    }
+  });
+}
+
 function verify(json, cb) {
   if(json['response'] && json['response']['listing'])
     cb(null, json['response']['listing']);
@@ -46,3 +81,4 @@ function verify(json, cb) {
 
 exports.getAll = rq;
 exports.getLocation = reqLocation;
+exports.getFilter = reqFilters;

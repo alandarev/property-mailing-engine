@@ -89,7 +89,7 @@ app.addRoute("/", function indexPage(request, response) {
         console.error("Error: " + err);
         return zoopla.getAll(printResults);
       }
-      zoopla.getLocation(printResults, config['location'], "10");
+      zoopla.getFilter(printResults, config);
     });
   }
 
