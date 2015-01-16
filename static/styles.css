@@ -69,3 +69,24 @@ div.rightcol {
   right:0;
   top: 0;
 }
+
+div.config_button {
+  position: absolute;
+  right: 5%;
+}
+
+a.grey_button {
+  text-decoration: none;
+  display: inline-block;
+  background-color: #aaa;
+  border: 1px solid #888;
+  color:  #fff;
+  line-height: 2;
+  cursor: pointer;
+  border-radius:4px;
+  padding:  1px 5px;
+}
+
+a.grey_button:hover  {
+  background-color: #4495d4;
+}

@@ -5,7 +5,10 @@ html(lang="en")
     link(rel='stylesheet', href='/static/styles.css')
 
   body
-    h1 Latest Property Listing
+    div.header
+      div.config_button
+        a.grey_button(href="/config") Settings
+      h1 Latest Property Listing
 
 
     ul#props_list
@@ -17,6 +20,7 @@ html(lang="en")
                 div.prop_title
                   h3
                     a(target="_blank" href="#{prop.details_url}")  #{prop.displayable_address}
+
                 div.prop_keywords
                   p #{prop.num_bedrooms} Bedrooms, #{prop.num_bathrooms} Bathrooms, #{prop.num_recepts} Receptions
                 div.prop_description

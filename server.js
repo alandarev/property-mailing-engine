@@ -45,16 +45,20 @@ app.addRoute("/config", function configPage(request, response)  {
       var postData = qs.parse(body);
       db.saveConfig(postData, function(err) {
         if(err) console.log("Error: " + err);
+        response.writeHead(302, {Location: '/'});
+        response.end();
       });
     });
   }
-  db.getConfig(function(err, config)  {
-    if(err) {
-      response.end("500 DB Error");
-      return console.log("Error: " + err);
-    }
-    response.end(configTemplate({config: config}));
-  });
+  else  {
+    db.getConfig(function(err, config)  {
+      if(err) {
+        response.end("500 DB Error");
+        return console.log("Error: " + err);
+      }
+      response.end(configTemplate({config: config}));
+    });
+  }
 });
 
 app.addRoute("/", function indexPage(request, response) {
