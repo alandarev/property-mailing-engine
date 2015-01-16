@@ -38,7 +38,9 @@ function reqLocation(cb, area, radius)  {
 
 var filters = {
   'location': 'area',
-  'radius': 'radius'
+  'radius': 'radius',
+  'min_rent':  'minimum_price',
+  'max_rent':  'maximum_price'
 };
 
 function reqFilters(cb, options)  {
@@ -47,6 +49,9 @@ function reqFilters(cb, options)  {
   for(var key in filters) {
     if(key in options)  {
       params[filters[key]] = options[key];
+      if(key == "min_rent" || key == "max_rent")  {
+        params[filters[key]] = Math.round(parseInt(options[key]) / 4.4);
+      }
     }
   }
   params['api_key'] = 'kgrruzj6vffrpscxp88yzy78';
