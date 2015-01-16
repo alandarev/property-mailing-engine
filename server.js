@@ -79,10 +79,16 @@ app.addRoute("/", function indexPage(request, response) {
     var area = queryData.area;
     zoopla.getLocation(printResults, area, queryData.radius);
   }
-
-  else  {
-    zoopla.getAll(printResults);
+  else {
+    db.getConfig(function(err, config) {
+      if(err) {
+        console.error("Error: " + err);
+        return zoopla.getAll(printResults);
+      }
+      zoopla.getLocation(printResults, config['location'], "10");
+    });
   }
+
 });
 
 app.addRoute("/json", function jsonIndexPage(request, response) {
