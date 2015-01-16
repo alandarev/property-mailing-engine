@@ -44,7 +44,6 @@ var filters = {
 };
 
 function reqFilters(cb, options)  {
-  console.log("line 1");
   params = {};
   for(var key in filters) {
     if(key in options)  {
