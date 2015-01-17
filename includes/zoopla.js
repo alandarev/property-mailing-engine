@@ -38,9 +38,11 @@ function reqLocation(cb, area, radius)  {
 
 var filters = {
   'location': 'area',
-  'radius': 'radius',
-  'min_rent':  'minimum_price',
-  'max_rent':  'maximum_price'
+  radius: 'radius',
+  min_rent:  'minimum_price',
+  max_rent:  'maximum_price',
+  min_beds: 'minimum_beds',
+  max_beds: 'maximum_beds'
 };
 
 function reqFilters(cb, options)  {
