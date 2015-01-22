@@ -40,11 +40,11 @@ html(lang="en")
             p.description Maximum amount of beds required in a property
           div.form-field
             div.form-field-value.field-radio
-              input.form-input.input-radio(id="radio-unfurnished" type="radio" name="furnished" value="0")
+              input.form-input.input-radio(id="radio-unfurnished", type="radio", name="furnished", value="0", checked=config.furnished==0)
               label(for="radio-unfurnished") Unfurnished
-              input.form-input.input-radio(id="radio-furnished" type="radio" name="furnished" value="1")
+              input.form-input.input-radio(id="radio-furnished" type="radio" name="furnished" value="1" checked=config.furnished==1)
               label(for="radio-furnished") Furnished
-              input.form-input.input-radio(id="radio-all" type="radio" name="furnished" value="2")
+              input.form-input.input-radio(id="radio-all" type="radio" name="furnished" value="2" checked=config.furnished==2)
               label(for="radio-all") All
             span Furnished
             p.description Set property filter to furnished, unfurnished, or both.
