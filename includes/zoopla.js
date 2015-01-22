@@ -42,7 +42,8 @@ var filters = {
   min_rent:  'minimum_price',
   max_rent:  'maximum_price',
   min_beds: 'minimum_beds',
-  max_beds: 'maximum_beds'
+  max_beds: 'maximum_beds',
+  furnished:  'furnished'
 };
 
 function reqFilters(cb, options)  {
@@ -54,6 +55,19 @@ function reqFilters(cb, options)  {
         params[filters[key]] = Math.round(parseInt(options[key]) / 4.4);
       }
     }
+  }
+  if("furnished" in params) {
+    switch(params['furnished']) {
+      case "0":
+        params['furnished'] = "unfurnished";
+        break;
+      case "1":
+        params['furnished'] = "furnished";
+        break;
+      default:
+        delete params['furnished'];
+    }
+
   }
   params['api_key'] = 'kgrruzj6vffrpscxp88yzy78';
   params['country'] = 'United Kingdom';
