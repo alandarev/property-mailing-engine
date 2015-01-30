@@ -53,7 +53,35 @@ function initialize() {
 
 function drawingComplete(event)  {
   var figure = event.overlay;
+  var paths = [];
   console.log("finished drawing: " + event.type);
+  if(event.type == "rectangle") {
+    var path = [];
+    console.log("rect found");
+    var bounds = figure.getBounds();
+    var ne = bounds.getNorthEast();
+    var sw = bounds.getSouthWest();
+    path.push(ne);
+    path.push(new google.maps.LatLng(ne.lat(), sw.lng()));
+    path.push(sw);
+    path.push(new google.maps.LatLng(sw.lat(), ne.lng()));
+    paths.push(path);
+  }
+  else if(event.type == "polygon")  {
+    var marray = figure.getPaths();
+    for(var i=0; i<marray.getLength(); i++) {
+      path = [];
+      var mvcpath = marray.getAt(i);
+      for(var y=0; y<mvcpath.getLength(); y++)  {
+        path.push(mvcpath.getAt(y));
+      }
+      console.log(path);
+      paths.push(path);
+    }
+  }
+  for(var i=0; i<paths.length; i++)  {
+    //console.log(paths[i]);
+  }
 }
 
 
