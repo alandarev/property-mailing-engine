@@ -87,3 +87,7 @@ div.field-radio label:last-of-type  {
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
 }
+
+div#map-canvas  {
+  height: 500px;
+}
