@@ -53,8 +53,12 @@ function initialize() {
   });
 }
 
+var geometries = [];
+
+
 function drawingComplete(event)  {
   var figure = event.overlay;
+  geometries.push(figure);
   google.maps.event.addListener(figure, 'mouseover', function() {
     figure.setOptions({
       fillOpacity: 0.55
@@ -67,7 +71,51 @@ function drawingComplete(event)  {
   });
   google.maps.event.addListener(figure, 'rightclick', function()  {
     figure.setMap(null);
+    var index = geometries.indexOf(figure);
+    if(index >= 0)  {
+      geometries.splice(index, 1);
+    }
   });
+}
+
+function saveGeometries() {
+  for(var index in geometries) {
+    var data = {};
+    var geometry = geometries[index];
+    console.log("geom: " + geometry);
+    if(geometry instanceof google.maps.Rectangle) {
+      console.log("saving rectangle");
+      var bounds = geometry.getBounds();
+      data = {
+        'figure': "rectangle",
+        'ne': bounds.getNorthEast(),
+        'sw': bounds.getSouthWest()
+      };
+      console.log(data);
+      console.log(JSON.stringify(data, null, '  '));
+    }
+    else if(geometry instanceof google.maps.Polygon)  {
+      console.log("saving polygon");
+      data['figure'] = 'polygon';
+      var paths = [];
+      var marray = geometry.getPaths();
+      for(var i=0; i<marray.length; i++)  {
+        path = [];
+        var mvcpath = marray.getAt(i);
+        for(var y=0; y<mvcpath.getLength(); y++)  {
+          path.push(mvcpath.getAt(y));
+        }
+        paths.push(path);
+      }
+      data['paths'] = paths;
+      console.log(data);
+      console.log(JSON.stringify(data, null, '  '));
+    }
+
+  }
+}
+
+function to_remove_abc()  {
   var paths = [];
   console.log("finished drawing: " + event.type);
   if(event.type == "rectangle") {
@@ -97,6 +145,10 @@ function drawingComplete(event)  {
   for(var i=0; i<paths.length; i++)  {
     //console.log(paths[i]);
   }
+}
+
+function readPolygons() {
+  //map.data.GeometryC
 }
 
 
