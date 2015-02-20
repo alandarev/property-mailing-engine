@@ -35,10 +35,12 @@ function initialize() {
         polygonOptions: {
           draggable:  true,
           editable: true,
+          fillOpacity: 0.35,
         },
         rectangleOptions: {
           draggable:  true,
           editable: true,
+          fillOpacity: 0.35,
         }
 
       });
@@ -53,6 +55,19 @@ function initialize() {
 
 function drawingComplete(event)  {
   var figure = event.overlay;
+  google.maps.event.addListener(figure, 'mouseover', function() {
+    figure.setOptions({
+      fillOpacity: 0.55
+    });
+  });
+  google.maps.event.addListener(figure, 'mouseout', function()  {
+    figure.setOptions({
+      fillOpacity: 0.35
+    });
+  });
+  google.maps.event.addListener(figure, 'rightclick', function()  {
+    figure.setMap(null);
+  });
   var paths = [];
   console.log("finished drawing: " + event.type);
   if(event.type == "rectangle") {
