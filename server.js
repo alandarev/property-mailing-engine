@@ -43,6 +43,10 @@ app.addRoute("/config", function configPage(request, response)  {
     });
     request.on('end', function()  {
       var postData = qs.parse(body);
+
+      postData.geometries = JSON.parse(postData.geometries);
+      console.log(JSON.stringify(postData, null, '\t'));
+
       db.saveConfig(postData, function(err) {
         if(err) console.log("Error: " + err);
         response.writeHead(302, {Location: '/'});

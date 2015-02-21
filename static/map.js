@@ -20,6 +20,7 @@ function initialize() {
         map: map,
         position: results[0].geometry.location
       });
+      loadGeometries();
 
       // Setup Drawing tools
       drawingManager.setOptions({
@@ -79,6 +80,7 @@ function drawingComplete(event)  {
 }
 
 function saveGeometries() {
+  var savedGeometries = [];
   for(var index in geometries) {
     var data = {};
     var geometry = geometries[index];
@@ -91,8 +93,6 @@ function saveGeometries() {
         'ne': bounds.getNorthEast(),
         'sw': bounds.getSouthWest()
       };
-      console.log(data);
-      console.log(JSON.stringify(data, null, '  '));
     }
     else if(geometry instanceof google.maps.Polygon)  {
       console.log("saving polygon");
@@ -108,12 +108,54 @@ function saveGeometries() {
         paths.push(path);
       }
       data['paths'] = paths;
-      console.log(data);
-      console.log(JSON.stringify(data, null, '  '));
     }
+    else  {
+      data = { 'figure': "Unknown" };
+    }
+    savedGeometries.push(data);
+  }
+  return savedGeometries;
+}
 
+function loadGeometries() {
+  var savedGeometries = JSON.parse(document.getElementById('input-geometries').value);
+  for(var i=savedGeometries.length-1; i>=0; i--)  {
+    console.log('creating geometry: ' + savedGeometries[i].figure);
+    var geom = savedGeometries[i];
+    if(geom.figure == 'rectangle')  {
+      console.log('creating bounds');
+      console.log(geom.sw);
+      console.log(geom.ne);
+      var sw = new google.maps.LatLng(geom.sw.k, geom.sw.B);
+      var ne = new google.maps.LatLng(geom.ne.k, geom.ne.B);
+      var bounds = new google.maps.LatLngBounds(sw, ne);
+      console.log(bounds);
+      var rectangle = new google.maps.Rectangle({
+        map: map,
+        bounds: bounds,
+        draggable:  true,
+        editable: true,
+        fillOpacity: 0.35,
+      });
+      var event = { overlay: rectangle };
+      drawingComplete(event);
+    }
+    else if(geom.figure == 'polygon') {
+
+    }
+    else  {
+      console.log('dropping unknown figure');
+      savedGeometries.splice(i, 1);
+    }
   }
 }
+
+function OnPostData() {
+  var field = document.getElementById('input-geometries');
+  var toSave = saveGeometries();
+  field.value = JSON.stringify(toSave);
+}
+
 
 function to_remove_abc()  {
   var paths = [];
@@ -151,5 +193,9 @@ function readPolygons() {
   //map.data.GeometryC
 }
 
+window.onload = function initJavascript() {
+  var form = document.getElementById('form-settings');
+  form.onsubmit = OnPostData;
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);

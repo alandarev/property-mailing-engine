@@ -10,7 +10,7 @@ html(lang="en")
   body
     h1 Configure Property Listing
 
-    form.form-settings(method="POST")
+    form.form-settings#form-settings(method="POST")
       div.settings-main
         div.settings-head
           h2 Settings
@@ -26,6 +26,7 @@ html(lang="en")
             div.map
               div#map-canvas
               p MAP
+              input(type="hidden" name="geometries" id="input-geometries" value="#{JSON.stringify(config.geometries)}")
           div.form-field
             div.form-field-value
               input.form-input.input-string(type="number" name="min_rent" value="#{config.min_rent}")
