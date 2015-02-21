@@ -123,13 +123,9 @@ function loadGeometries() {
     console.log('creating geometry: ' + savedGeometries[i].figure);
     var geom = savedGeometries[i];
     if(geom.figure == 'rectangle')  {
-      console.log('creating bounds');
-      console.log(geom.sw);
-      console.log(geom.ne);
       var sw = new google.maps.LatLng(geom.sw.k, geom.sw.B);
       var ne = new google.maps.LatLng(geom.ne.k, geom.ne.B);
       var bounds = new google.maps.LatLngBounds(sw, ne);
-      console.log(bounds);
       var rectangle = new google.maps.Rectangle({
         map: map,
         bounds: bounds,
@@ -141,7 +137,22 @@ function loadGeometries() {
       drawingComplete(event);
     }
     else if(geom.figure == 'polygon') {
-
+      for(var iter1 in geom.paths)  {
+        for(var iter2 in geom.paths[iter1]) {
+          geom.paths[iter1][iter2] = new google.maps.LatLng(
+              geom.paths[iter1][iter2].k,
+              geom.paths[iter1][iter2].B);
+        }
+      }
+      var polygon = new google.maps.Polygon({
+        paths: geom.paths,
+        map: map,
+        draggable: true,
+        editable: true,
+        fillOpacity: 0.35,
+      });
+      var event = { overlay: polygon };
+      drawingComplete(event);
     }
     else  {
       console.log('dropping unknown figure');
