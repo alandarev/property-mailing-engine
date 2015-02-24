@@ -9,8 +9,10 @@ var jade = require('jade'),
     url = require('url'),
     qs = require('querystring'),
     Router = require('routes-router'),
-    st = require('st');
-    zoopla = require('./includes/zoopla');
+    st = require('st'),
+    zoopla = require('./includes/zoopla'),
+    geometry = require('./includes/geometry'),
+    gmaps = require('./includes/gmaps');
 
 var listingPage = jade.compileFile('templates/listing.jade');
 var configTemplate = jade.compileFile('templates/config.jade');
@@ -93,7 +95,15 @@ app.addRoute("/", function indexPage(request, response) {
         console.error("Error: " + err);
         return zoopla.getAll(printResults);
       }
-      zoopla.getFilter(printResults, config);
+      zoopla.getFilter(function locFilter(err, data)  {
+        var GeometryBounds = geometry.GeometryBounds(
+            gmaps.normaliseGeometries(config['geometries']));
+        for(var i in data)  {
+          console.log("Latitude: " + data[i]['latitude']);
+          console.log("longitude: " + data[i]['longitude']);
+        }
+        printResults(err, data);
+      }, config);
     });
   }
 
