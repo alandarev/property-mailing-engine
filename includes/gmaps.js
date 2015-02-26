@@ -8,7 +8,7 @@ function normaliseGeometries(geometries)  {
       paths.push(ne);
       paths.push({k: ne['k'], B: sw['B']});
       paths.push(sw);
-      paths.push({k: sw['k'], B: sw['B']});
+      paths.push({k: sw['k'], B: ne['B']});
     }
     else  if(geometries[i]['figure'] == 'polygon')  {
       paths = geometries[i]['paths'][0];

@@ -11,7 +11,7 @@ var jade = require('jade'),
     Router = require('routes-router'),
     st = require('st'),
     zoopla = require('./includes/zoopla'),
-    geometry = require('./includes/geometry'),
+    geometry = require('node-geometry'),
     gmaps = require('./includes/gmaps');
 
 var listingPage = jade.compileFile('templates/listing.jade');

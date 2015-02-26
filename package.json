@@ -7,10 +7,11 @@
   },
   "dependencies": {
     "jade": "^1.7.0",
+    "mongodb": "~1.4.22",
+    "node-geometry": "file:../../../../tmp/npm-23587-2ea3909c/1424966864398-0.6803064290434122/c26efa2fe6cb354a9b9d3bfc7f1fb6d30ae01269",
     "request": "^2.47.0",
     "routes-router": "~4.1.1",
     "st": "~0.5.2",
-    "xml2js": "~0.4.4",
-    "mongodb": "~1.4.22"
+    "xml2js": "~0.4.4"
   }
 }
