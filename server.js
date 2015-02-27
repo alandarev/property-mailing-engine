@@ -96,11 +96,15 @@ app.addRoute("/", function indexPage(request, response) {
         return zoopla.getAll(printResults);
       }
       zoopla.getFilter(function locFilter(err, data)  {
-        var GeometryBounds = geometry.GeometryBounds(
-            gmaps.normaliseGeometries(config['geometries']));
-        for(var i in data)  {
-          console.log("Latitude: " + data[i]['latitude']);
-          console.log("longitude: " + data[i]['longitude']);
+        var normalisedGeo = gmaps.normaliseGeometries(config['geometries']);
+        var gb = new geometry.GeometryBounds(normalisedGeo);
+        var checkGeometry = normalisedGeo.length > 0;
+        console.log("gb: " + gb);
+        for(var i=data.length-1; i >= 0; i--)  {
+          var point = { 'lat': data[i]['latitude'], 'lng': data[i]['longitude'] };
+          if(checkGeometry && !gb.contains(point)) {
+            data.splice(i, 1);
+          }
         }
         printResults(err, data);
       }, config);
