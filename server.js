@@ -30,8 +30,11 @@ var db = new DB(dbUrl, function(err)  {
   if(err) return console.error("DB Error: " + err);
 
   new CronJob('30 * * * * *', function mainCron() {
-    console.log("tick");
-    zcrawler.run(db);
+    db.getConfig(function(err, config)  {
+      if(err) return console.error("Cron-db error: " + err);
+      console.log("tick");
+      zcrawler.run(config, db);
+    });
   }, null, true, null);
 });
 
