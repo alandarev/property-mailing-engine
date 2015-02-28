@@ -10,21 +10,29 @@ var jade = require('jade'),
     qs = require('querystring'),
     Router = require('routes-router'),
     st = require('st'),
-    zoopla = require('./includes/zoopla'),
     geometry = require('node-geometry'),
-    gmaps = require('./includes/gmaps');
+    CronJob = require('cron').CronJob;
+
+var zoopla = require('./includes/zoopla'),
+    gmaps = require('./includes/gmaps'),
+    DB = require('./includes/mongo').DataProvider,
+    zcrawler = require('./includes/zoopla_crawler');
 
 var listingPage = jade.compileFile('templates/listing.jade');
 var configTemplate = jade.compileFile('templates/config.jade');
 
 var app = Router();
 var server = http.createServer(app);
-var DB = require('./includes/mongo').DataProvider;
 
 // Initialize connection to the DB
 var dbUrl = 'mongodb://localhost/properties-node';
 var db = new DB(dbUrl, function(err)  {
   if(err) return console.error("DB Error: " + err);
+
+  new CronJob('30 * * * * *', function mainCron() {
+    console.log("tick");
+    zcrawler.run(db);
+  }, null, true, null);
 });
 
 

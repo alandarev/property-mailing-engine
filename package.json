@@ -6,6 +6,7 @@
     "start": "nodemon -e js,jade,css server.js"
   },
   "dependencies": {
+    "cron": "^1.0.6",
     "jade": "^1.7.0",
     "mongodb": "~1.4.22",
     "node-geometry": "git+ssh://git@github.com:alandarev/node-geometry.git",
