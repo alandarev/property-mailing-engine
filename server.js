@@ -58,10 +58,9 @@ app.addRoute("/config", function configPage(request, response)  {
       var postData = qs.parse(body);
 
       postData.geometries = JSON.parse(postData.geometries);
-      console.log(JSON.stringify(postData, null, '\t'));
 
       db.saveConfig(postData, function(err) {
-        if(err) console.log("Error: " + err);
+        if(err) console.error("Error: " + err);
         response.writeHead(302, {Location: '/'});
         response.end();
       });
@@ -71,7 +70,7 @@ app.addRoute("/config", function configPage(request, response)  {
     db.getConfig(function(err, config)  {
       if(err) {
         response.end("500 DB Error");
-        return console.log("Error: " + err);
+        return console.error("Error: " + err);
       }
       response.end(configTemplate({config: config}));
     });
@@ -83,7 +82,7 @@ app.addRoute("/", function indexPage(request, response) {
 
   function printResults(err, data)  {
     if(err) {
-      console.log("ERROR: " + err);
+      console.error("ERROR: " + err);
       response.end("Zoopla API error");
       return;
     }
@@ -110,7 +109,6 @@ app.addRoute("/", function indexPage(request, response) {
         var normalisedGeo = gmaps.normaliseGeometries(config['geometries']);
         var gb = new geometry.GeometryBounds(normalisedGeo);
         var checkGeometry = normalisedGeo.length > 0;
-        console.log("gb: " + gb);
         for(var i=data.length-1; i >= 0; i--)  {
           var point = { 'lat': data[i]['latitude'], 'lng': data[i]['longitude'] };
           if(checkGeometry && !gb.contains(point)) {
@@ -126,7 +124,7 @@ app.addRoute("/", function indexPage(request, response) {
 
 app.addRoute("/json", function jsonIndexPage(request, response) {
   zoopla.getAll(function(err, data)  {
-    if(err) console.log("ERROR: " + err);
+    if(err) console.error("ERROR: " + err);
     response.end(JSON.stringify(data, null, '\t'));
   });
 });

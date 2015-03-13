@@ -84,18 +84,15 @@ function saveGeometries() {
   for(var index in geometries) {
     var data = {};
     var geometry = geometries[index];
-    console.log("geom: " + geometry);
     if(geometry instanceof google.maps.Rectangle) {
-      console.log("saving rectangle");
       var bounds = geometry.getBounds();
       data = {
         'figure': "rectangle",
-        'ne': bounds.getNorthEast(),
-        'sw': bounds.getSouthWest()
+        'ne': [bounds.getNorthEast().lat(), bounds.getNorthEast().lng()],
+        'sw': [bounds.getSouthWest().lat(), bounds.getSouthWest().lng()]
       };
     }
     else if(geometry instanceof google.maps.Polygon)  {
-      console.log("saving polygon");
       data['figure'] = 'polygon';
       var paths = [];
       var marray = geometry.getPaths();
@@ -103,7 +100,9 @@ function saveGeometries() {
         path = [];
         var mvcpath = marray.getAt(i);
         for(var y=0; y<mvcpath.getLength(); y++)  {
-          path.push(mvcpath.getAt(y));
+          path.push(
+              [mvcpath.getAt(y).lat(),
+              mvcpath.getAt(y).lng()]);
         }
         paths.push(path);
       }
@@ -120,11 +119,10 @@ function saveGeometries() {
 function loadGeometries() {
   var savedGeometries = JSON.parse(document.getElementById('input-geometries').value);
   for(var i=savedGeometries.length-1; i>=0; i--)  {
-    console.log('creating geometry: ' + savedGeometries[i].figure);
     var geom = savedGeometries[i];
     if(geom.figure == 'rectangle')  {
-      var sw = new google.maps.LatLng(geom.sw.k, geom.sw.B);
-      var ne = new google.maps.LatLng(geom.ne.k, geom.ne.B);
+      var sw = new google.maps.LatLng(geom.sw[0], geom.sw[1]);
+      var ne = new google.maps.LatLng(geom.ne[0], geom.ne[1]);
       var bounds = new google.maps.LatLngBounds(sw, ne);
       var rectangle = new google.maps.Rectangle({
         map: map,
@@ -140,8 +138,8 @@ function loadGeometries() {
       for(var iter1 in geom.paths)  {
         for(var iter2 in geom.paths[iter1]) {
           geom.paths[iter1][iter2] = new google.maps.LatLng(
-              geom.paths[iter1][iter2].k,
-              geom.paths[iter1][iter2].B);
+              geom.paths[iter1][iter2][0],
+              geom.paths[iter1][iter2][1]);
         }
       }
       var polygon = new google.maps.Polygon({
@@ -155,7 +153,6 @@ function loadGeometries() {
       drawingComplete(event);
     }
     else  {
-      console.log('dropping unknown figure');
       savedGeometries.splice(i, 1);
     }
   }
@@ -165,39 +162,6 @@ function OnPostData() {
   var field = document.getElementById('input-geometries');
   var toSave = saveGeometries();
   field.value = JSON.stringify(toSave);
-}
-
-
-function to_remove_abc()  {
-  var paths = [];
-  console.log("finished drawing: " + event.type);
-  if(event.type == "rectangle") {
-    var path = [];
-    console.log("rect found");
-    var bounds = figure.getBounds();
-    var ne = bounds.getNorthEast();
-    var sw = bounds.getSouthWest();
-    path.push(ne);
-    path.push(new google.maps.LatLng(ne.lat(), sw.lng()));
-    path.push(sw);
-    path.push(new google.maps.LatLng(sw.lat(), ne.lng()));
-    paths.push(path);
-  }
-  else if(event.type == "polygon")  {
-    var marray = figure.getPaths();
-    for(var i=0; i<marray.getLength(); i++) {
-      path = [];
-      var mvcpath = marray.getAt(i);
-      for(var y=0; y<mvcpath.getLength(); y++)  {
-        path.push(mvcpath.getAt(y));
-      }
-      console.log(path);
-      paths.push(path);
-    }
-  }
-  for(var i=0; i<paths.length; i++)  {
-    //console.log(paths[i]);
-  }
 }
 
 function readPolygons() {
