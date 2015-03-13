@@ -23,6 +23,44 @@ DataProvider.prototype.getCollection = function(callback) {
   });
 };
 
+DataProvider.prototype.onlyNew = function(objects, callback)  {
+  if(typeof(objects.length) == "undefined") {
+    objects = [objects];
+  }
+  var ids = [];
+  for(var i=0; i<objects.length; i++) {
+    if(objects[i].listing_id) {
+      ids.push('zoopla_' + objects[i].listing_id);
+    }
+  }
+  this.getCollection(function(err, collection)  {
+    if(err) return callback(err);
+    collection.find({
+      '_id':  {
+        '$in':  ids
+      }
+    }, { '_id': true }, null, function(err, cursor) {
+      cursor.each(function(err, doc)  {
+        if(err) return callback(err);
+        if(doc != null) {
+          var foundId = doc['_id'];
+          ids.splice(ids.indexOf(foundId), 1);
+        }
+        else  {
+          // Finished
+          for(var i=objects.length-1; i >= 0; i--)  {
+            if(ids.indexOf('zoopla_' + objects[i].listing_id))  {
+              objects.splice(i, 1);
+            }
+          }
+          return callback(null, objects);
+        }
+      });
+    });
+  });
+
+};
+
 DataProvider.prototype.save = function(objects, callback) {
   if(typeof(objects.length) == "undefined") {
     objects = [objects];

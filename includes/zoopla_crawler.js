@@ -1,3 +1,4 @@
+var util = require('util');
 var zoopla = require('./zoopla'),
     geometry = require('node-geometry'),
     gmaps = require('./gmaps'),
@@ -11,17 +12,18 @@ function run(config, db)  {
     var normalisedGeo = gmaps.normaliseGeometries(config['geometries']);
     var gb = new geometry.GeometryBounds(normalisedGeo);
     var checkGeometry = normalisedGeo.length > 0;
-    console.log("gb: " + gb);
     for(var i=data.length-1; i >= 0; i--)  {
       var point = { 'lat': data[i]['latitude'], 'lng': data[i]['longitude'] };
       if(checkGeometry && !gb.contains(point)) {
         data.splice(i, 1);
       }
     }
-    db.save(data);
+    db.onlyNew(data, function(err, data)  {
+      console.log(util.format("Saving %d entries", data.length));
+      db.save(data);
+    });
   }, config);
 
-});
 }
 
 exports.run = run;
