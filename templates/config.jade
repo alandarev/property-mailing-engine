@@ -21,6 +21,20 @@ html(lang="en")
             span Location
             p.description Specify the area to search properties for
           div.form-field
+            div.form-field-value
+              input.form-input.input-string#input-email(type="email" name="email" value="#{config.email}")
+            span E-mail
+            p.description E-mail address to send new properties to
+          div.form-field
+            div.form-field-value.field-radio
+              input.form-input.input-radio(id="radio-no-notification", type="radio", name="notification", value="0", checked=config.notification==0)
+              label(for="radio-no-notification") None
+              input.form-input.input-radio(id="radio-send-email" type="radio" name="notification" value="1" checked=config.notification==1)
+              label(for="radio-send-email") E-Mail
+            span Notification type
+            p.description Choose how to notify of new properties listed.
+
+          div.form-field
             span Selected Areas
             p.description Draw specific areas of interest for the earlier selected location: #{config.location}
             div.map
