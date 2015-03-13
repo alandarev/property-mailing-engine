@@ -18,8 +18,9 @@ function run(config, db)  {
         data.splice(i, 1);
       }
     }
-    db.onlyNew(data, function(err, data)  {
-      console.log(util.format("Saving %d entries", data.length));
+    db.onlyNew(data, function(err, newData)  {
+      console.log(util.format("%d new entries", newData.length));
+      console.log(util.format("Saving %d entries in total", data.length));
       db.save(data);
     });
   }, config);
