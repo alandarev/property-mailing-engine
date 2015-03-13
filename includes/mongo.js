@@ -28,9 +28,11 @@ DataProvider.prototype.onlyNew = function(objects, callback)  {
     objects = [objects];
   }
   var ids = [];
+  var newData = [];
   for(var i=0; i<objects.length; i++) {
+    objects[i]['_id'] = 'zoopla_' + objects[i].listing_id;
     if(objects[i].listing_id) {
-      ids.push('zoopla_' + objects[i].listing_id);
+      ids.push(objects[i]['_id']);
     }
   }
   this.getCollection(function(err, collection)  {
@@ -49,11 +51,11 @@ DataProvider.prototype.onlyNew = function(objects, callback)  {
         else  {
           // Finished
           for(var i=objects.length-1; i >= 0; i--)  {
-            if(ids.indexOf('zoopla_' + objects[i].listing_id))  {
-              objects.splice(i, 1);
+            if(!ids.indexOf(objects[i]['_id']))  {
+              newData.push(objects[i]);
             }
           }
-          return callback(null, objects);
+          return callback(null, newData);
         }
       });
     });
