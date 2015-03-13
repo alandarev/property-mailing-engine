@@ -2,7 +2,8 @@ var util = require('util');
 var zoopla = require('./zoopla'),
     geometry = require('node-geometry'),
     gmaps = require('./gmaps'),
-    DB = require('./mongo').DataProvider;
+    DB = require('./mongo').DataProvider,
+    notifier = require('./notifier');
 
 var dbUrl = 'mongodb://localhost/properties-node';
 
@@ -21,6 +22,7 @@ function run(config, db)  {
     db.onlyNew(data, function(err, newData)  {
       console.log(util.format("%d new entries", newData.length));
       console.log(util.format("Saving %d entries in total", data.length));
+      if(newData.length > 0)  notifier.notify(config['email'], newData);
       db.save(data);
     });
   }, config);
